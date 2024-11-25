@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package proto.v1;
+
+
+import "proto/v1/auth/register.proto";
+import "proto/v1/auth/login.proto";
+import "proto/v1/auth/check.proto";
+
+
+service AuthService {
+  rpc Register(RegisterRequest) returns (RegisterResponse) {}
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+  rpc Check(CheckRequest) returns (CheckResponse) {}
+}

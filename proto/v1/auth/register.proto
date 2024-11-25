@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package proto.v1;
+
+enum RegisterResult {
+  REGISTER_RESULT_UNSPECIFIED = 0;
+  REGISTER_RESULT_SUCCESS = 1;
+  REGISTER_RESULT_EXISTS = 2;
+  REGISTER_RESULT_VALUE_NULL = 3;
+}
+
+message RegisterResponse {
+  RegisterResult result = 1;
+}
+
+message RegisterRequest {
+  string username = 1;
+  string password = 2;
+}

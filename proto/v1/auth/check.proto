@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package proto.v1;
+
+enum CheckResult {
+  CHECK_RESULT_UNSPECIFIED = 0;
+  CHECK_RESULT_SUCCESS = 1;
+  CHECK_RESULT_FAILED = 2;
+}
+
+message CheckResponse {
+  CheckResult result = 1;
+}
+
+message CheckRequest {
+  string token = 1;
+}
