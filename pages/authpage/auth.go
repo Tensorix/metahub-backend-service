@@ -20,7 +20,7 @@ type User struct{
 	Pwd string
 }
 
-type login struct {
+type server struct {
 	auth.UnimplementedAuthServiceServer
 }
 
@@ -30,6 +30,6 @@ func Register(s *grpc.Server,gormdb *gorm.DB) {
 	if err != nil {
 		panic("please create secret.img")
 	}
-	auth.RegisterAuthServiceServer(s, &login{})
+	auth.RegisterAuthServiceServer(s, &server{})
 	db = gormdb
 }

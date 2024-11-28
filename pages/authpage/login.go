@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *login) Login(_ context.Context, in *auth.LoginRequest) (*auth.LoginResponse, error) {
+func (s *server) Login(_ context.Context, in *auth.LoginRequest) (*auth.LoginResponse, error) {
 	result := &auth.LoginResponse{
 		Result: auth.LoginResult_LOGIN_RESULT_SUCCESS,
 	}
@@ -19,7 +19,7 @@ func (s *login) Login(_ context.Context, in *auth.LoginRequest) (*auth.LoginResp
 	password := in.GetPassword()
 	if username == "" || password == "" {
 		result.Result = auth.LoginResult_LOGIN_RESULT_FAILED
-		return result,nil
+		return result, nil
 	}
 	var user User
 	err = db.First(&user, "username = ? AND pwd = ?", username, password).Error

@@ -2,11 +2,12 @@ package authpage
 
 import (
 	"context"
+
 	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func (s *login) Check(_ context.Context, in *auth.CheckRequest) (*auth.CheckResponse, error) {
+func (s *server) Check(_ context.Context, in *auth.CheckRequest) (*auth.CheckResponse, error) {
 	t := in.GetToken()
 	valid := verifyToken(t)
 	result := auth.CheckResult_CHECK_RESULT_SUCCESS

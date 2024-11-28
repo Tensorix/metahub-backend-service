@@ -6,7 +6,7 @@ import (
 	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
 )
 
-func (s *login) Register(_ context.Context, in *auth.RegisterRequest) (*auth.RegisterResponse, error) {
+func (s *server) Register(_ context.Context, in *auth.RegisterRequest) (*auth.RegisterResponse, error) {
 	var err error
 	username := in.GetUsername()
 	password := in.GetPassword()
