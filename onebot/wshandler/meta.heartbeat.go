@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-type HeartBeat struct {
+type Heartbeat struct {
 	Interval      int      `json:"interval"`
 	Status        struct{} `json:"status"`
 	MetaEventType string   `json:"meta_event_type"`
@@ -18,7 +18,7 @@ type HeartBeat struct {
 }
 
 func (handler *WSHandler) Heartbeat(conn *websocket.Conn, messageType int, message []byte) error {
-	var heartBeat HeartBeat
+	var heartBeat Heartbeat
 	err := json.Unmarshal(message, &heartBeat)
 	if err != nil {
 		log.Println(err.Error())
