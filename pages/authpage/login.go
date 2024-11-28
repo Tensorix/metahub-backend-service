@@ -31,13 +31,6 @@ func (s *login) Login(_ context.Context, in *auth.LoginRequest) (*auth.LoginResp
 		result.Result = auth.LoginResult_LOGIN_RESULT_UNSPECIFIED
 		return result, nil
 	}
-
-	// if username != "admin" || password != "admin" {
-	// 	return &auth.LoginResponse{
-	// 		Result: auth.LoginResult_LOGIN_RESULT_FAILED,
-	// 	}, nil
-	// }
-	// result := auth.LoginResult_LOGIN_RESULT_SUCCESS
 	t, err := createToken(username)
 	if err != nil {
 		result.Result = auth.LoginResult_LOGIN_RESULT_UNSPECIFIED
