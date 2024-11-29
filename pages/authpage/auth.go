@@ -5,6 +5,7 @@ import (
 	"time"
 
 	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
+	"github.com/Tensorix/metahub-backend-service/onebot"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )
@@ -12,19 +13,20 @@ import (
 var (
 	secretKey []byte
 	expireAt  = 24 * time.Hour
-	db *gorm.DB
+	db        *gorm.DB
+	bot *[]onebot.Onebot
 )
 
-type User struct{
+type User struct {
 	Username string
-	Pwd string
+	Pwd      string
 }
 
 type server struct {
 	auth.UnimplementedAuthServiceServer
 }
 
-func Register(s *grpc.Server,gormdb *gorm.DB) {
+func Register(s *grpc.Server, gormdb *gorm.DB, _bot *[]onebot.Onebot) {
 	var err error
 	secretKey, err = os.ReadFile("secret.img")
 	if err != nil {
@@ -32,4 +34,5 @@ func Register(s *grpc.Server,gormdb *gorm.DB) {
 	}
 	auth.RegisterAuthServiceServer(s, &server{})
 	db = gormdb
+	bot = _bot
 }

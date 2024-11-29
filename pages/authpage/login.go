@@ -31,12 +31,16 @@ func (s *server) Login(_ context.Context, in *auth.LoginRequest) (*auth.LoginRes
 		result.Result = auth.LoginResult_LOGIN_RESULT_UNSPECIFIED
 		return result, nil
 	}
+
 	t, err := createToken(username)
 	if err != nil {
 		result.Result = auth.LoginResult_LOGIN_RESULT_UNSPECIFIED
 		return result, nil
 	}
 	result.Token = t
+
+	
+
 	return result, nil
 }
 
