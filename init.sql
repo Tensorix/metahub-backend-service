@@ -14,6 +14,7 @@ create table if not exists "srvs"(
 
 create table if not exists "accounts"(
     "id" integer not null primary key autoincrement,
+    "account_tag" varchar(16) not null,
     "user_id" integer not null,
     "srv_id" integer not null,
     foreign key("user_id") references "users"("id"),
