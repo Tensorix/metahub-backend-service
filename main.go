@@ -8,6 +8,7 @@ import (
 
 	"github.com/Tensorix/metahub-backend-service/onebot"
 	"github.com/Tensorix/metahub-backend-service/pages/authpage"
+	"github.com/Tensorix/metahub-backend-service/pages/notifypage"
 	"google.golang.org/grpc"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -38,6 +39,7 @@ func main() {
 
 	// Register start
 	authpage.Register(s, db, &bots)
+	notifypage.Register(s)
 	// Register end
 
 	if err := s.Serve(lis); err != nil {
