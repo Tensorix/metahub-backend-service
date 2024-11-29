@@ -11,7 +11,7 @@ message Detail {
 
 message HeartbeatResponse {
     CheckResult result = 1;
-    repeated Detail detail = 2;
+    repeated Detail details = 2;
     int32 interval = 3;
 }
 

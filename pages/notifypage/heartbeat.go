@@ -15,7 +15,7 @@ var (
 func (s *server) Heartbeat(in *notify.HeartbeatRequest, stream grpc.ServerStreamingServer[notify.HeartbeatResponse]) error {
 	response := notify.HeartbeatResponse{
 		Result: protov1.CheckResult_CHECK_RESULT_FAILED,
-		Detail: []*notify.Detail{
+		Details: []*notify.Detail{
 			// {
 			// 	Connected:  true,
 			// 	AccountTag: "tag1",
