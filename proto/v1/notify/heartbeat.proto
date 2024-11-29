@@ -4,14 +4,14 @@ package proto.v1;
 
 import "proto/v1/auth/check.proto";
 
-message Heartbeat {
+message Detail {
     string account_tag = 1;
     bool connected = 2;
 }
 
 message HeartbeatResponse {
     CheckResult result = 1;
-    repeated Heartbeat heartbeat = 2;
+    repeated Detail detail = 2;
     int32 interval = 3;
 }
 
