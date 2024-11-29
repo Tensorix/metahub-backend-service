@@ -6,11 +6,12 @@ import (
 )
 
 type Onebot struct {
+	Username string
 	Websocket *ws.WS
 	WSHandler *wshandler.WSHandler
 }
 
-func NewOnebot(ip string, port int) Onebot {
+func NewOnebot(username string, ip string, port int) Onebot {
 	handler := &wshandler.WSHandler{}
 	_ws := &ws.WS{
 		IP:        ip,
@@ -19,6 +20,7 @@ func NewOnebot(ip string, port int) Onebot {
 	}
 
 	bot := Onebot{
+		Username: username,
 		Websocket: _ws,
 		WSHandler: handler,
 	}
