@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package proto.v1;
+
+
+import "proto/v1/notify/heartbeat.proto";
+
+
+service NotifyService {
+  rpc Heartbeat(HeartbeatRequest) returns (stream HeartbeatResponse) {}
+}
