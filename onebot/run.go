@@ -1,6 +1,6 @@
-package ws
+package onebot
 
-func (ws *WS) Run() {
+func (ws *Onebot) Run() {
 	if !ws.registed {
 		return
 	}

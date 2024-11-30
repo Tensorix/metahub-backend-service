@@ -1,17 +1,17 @@
-package ws
+package onebot
 
 import (
 	"context"
 	"time"
 )
 
-func (ws *WS) Shutdown() error {
-	if !ws.Running {
+func (bot *Onebot) Shutdown() error {
+	if !bot.Running {
 		return nil
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	if err := ws.server.Shutdown(ctx); err != nil {
+	if err := bot.server.Shutdown(ctx); err != nil {
 		return err
 	}
 	return nil
