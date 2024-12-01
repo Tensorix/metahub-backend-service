@@ -18,6 +18,7 @@ var (
 )
 
 type User struct {
+	Id       uint
 	Username string
 	Pwd      string
 }
