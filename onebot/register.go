@@ -57,7 +57,7 @@ func (bot *Onebot) multiHander() error {
 				err = bot.Heartbeat()
 			}
 		default:
-			bot.msgsignal <- struct{}{}
+			bot.msgSignal <- struct{}{}
 		}
 		if err != nil {
 			log.Println(err)

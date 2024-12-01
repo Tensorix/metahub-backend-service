@@ -29,7 +29,7 @@ type Onebot struct {
 	avaliableBefore int64
 	conn            *websocket.Conn
 	message         []byte
-	msgsignal       chan struct{}
+	msgSignal       chan struct{}
 }
 
 type ActionRequest struct {
@@ -61,7 +61,7 @@ func NewOnebot(username string, accountTag string, ip string, port int) *Onebot 
 		AccountTag: accountTag,
 		IP:         ip,
 		Port:       port,
-		msgsignal:  make(chan struct{}),
+		msgSignal:  make(chan struct{}),
 	}
 	bot.Register()
 	return &bot

@@ -30,7 +30,7 @@ func (bot *Onebot) GetFriendList() (FriendList, error) {
 		return fl, err
 	}
 	bot.conn.WriteMessage(websocket.TextMessage, data)
-	<-bot.msgsignal
+	<-bot.msgSignal
 	json.Unmarshal(bot.message, &fl)
 	return fl, nil
 }
