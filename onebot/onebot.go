@@ -2,7 +2,6 @@ package onebot
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -13,7 +12,6 @@ var (
 			return true
 		},
 	}
-	timeout = 5 * time.Second
 )
 
 type Onebot struct {
@@ -28,7 +26,6 @@ type Onebot struct {
 	Running         bool
 	AccountId       int64
 	registed        bool
-	Connected       bool
 	avaliableBefore int64
 	conn            *websocket.Conn
 	message         []byte
@@ -60,11 +57,11 @@ type ActionRequest struct {
 
 func NewOnebot(username string, accountTag string, ip string, port int) *Onebot {
 	bot := Onebot{
-		Username:  username,
+		Username:   username,
 		AccountTag: accountTag,
-		IP:        ip,
-		Port:      port,
-		msgsignal: make(chan struct{}),
+		IP:         ip,
+		Port:       port,
+		msgsignal:  make(chan struct{}),
 	}
 	bot.Register()
 	return &bot

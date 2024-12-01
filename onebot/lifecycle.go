@@ -20,9 +20,7 @@ func (bot *Onebot) Lifecycle() error {
 		log.Println(err)
 		return nil
 	}
-	// log.Println("Lifecycle")
 
 	bot.AccountId = lifecycle.SelfID
-	bot.Connected = true
 	return nil
 }

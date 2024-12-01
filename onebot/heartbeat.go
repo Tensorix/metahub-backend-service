@@ -21,8 +21,6 @@ func (bot *Onebot) Heartbeat() error {
 		return err
 	}
 
-	// log.Println("Heartbeat")
-
-	bot.avaliableBefore = time.Now().Unix() + int64(heartBeat.Interval) + int64(timeout)
+	bot.avaliableBefore = time.Now().Unix() + int64(heartBeat.Interval/1000)
 	return nil
 }
