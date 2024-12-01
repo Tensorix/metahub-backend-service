@@ -45,7 +45,7 @@ func (bot *Onebot) multiHander() error {
 			return err
 		}
 
-		err = json.Unmarshal(message, &data)
+		json.Unmarshal(message, &data)
 		switch data.PostType {
 		case "meta_event":
 			switch data.MetaEventType {
