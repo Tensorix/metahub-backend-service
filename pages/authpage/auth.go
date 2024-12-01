@@ -11,10 +11,12 @@ import (
 )
 
 var (
-	secretKey []byte
-	expireAt  = 24 * time.Hour
-	db        *gorm.DB
-	bots      []onebot.Onebot
+	secretKey    []byte
+	expireAt     = 24 * time.Hour
+	db           *gorm.DB
+	Bots         []*onebot.Onebot
+	registedList []string
+	max_bot      = 10000
 )
 
 type User struct {
@@ -24,25 +26,25 @@ type User struct {
 }
 
 type Account struct {
-	Id uint
+	Id         uint
 	AccountTag string
-	UserId uint
-	SrvId uint
+	UserId     uint
+	SrvId      uint
 }
 
 type Srv struct {
-	Id uint
-	ImgName string
+	Id        uint
+	ImgName   string
 	Container string
-	IpAddr string
-	Port int
+	IpAddr    string
+	Port      int
 }
 
 type server struct {
 	auth.UnimplementedAuthServiceServer
 }
 
-func Register(s *grpc.Server, gormdb *gorm.DB, _bots []onebot.Onebot) {
+func Register(s *grpc.Server, gormdb *gorm.DB) {
 	var err error
 	secretKey, err = os.ReadFile("secret.img")
 	if err != nil {
@@ -50,5 +52,5 @@ func Register(s *grpc.Server, gormdb *gorm.DB, _bots []onebot.Onebot) {
 	}
 	auth.RegisterAuthServiceServer(s, &server{})
 	db = gormdb
-	bots = _bots
+	Bots = make([]*onebot.Onebot, 10000)
 }

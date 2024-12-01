@@ -6,7 +6,6 @@ import (
 	"log"
 	"net"
 
-	"github.com/Tensorix/metahub-backend-service/onebot"
 	"github.com/Tensorix/metahub-backend-service/pages/authpage"
 	"github.com/Tensorix/metahub-backend-service/pages/notifypage"
 	"google.golang.org/grpc"
@@ -15,8 +14,7 @@ import (
 )
 
 var (
-	port    = flag.Int("port", 9090, "The server port")
-	max_bot = 10000
+	port = flag.Int("port", 9090, "The server port")
 )
 
 func main() {
@@ -31,14 +29,13 @@ func main() {
 	s := grpc.NewServer()
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
-		panic(err.Error())
+		panic(err)
 	}
 
 	// Create bots
-	bots := make([]onebot.Onebot, max_bot)
 
 	// Register start
-	authpage.Register(s, db, bots)
+	authpage.Register(s, db)
 	notifypage.Register(s)
 	// Register end
 
