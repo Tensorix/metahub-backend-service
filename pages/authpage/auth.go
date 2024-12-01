@@ -23,6 +23,21 @@ type User struct {
 	Pwd      string
 }
 
+type Account struct {
+	Id uint
+	AccountTag string
+	UserId uint
+	SrvId uint
+}
+
+type Srv struct {
+	Id uint
+	ImgName string
+	Container string
+	IpAddr string
+	Port int
+}
+
 type server struct {
 	auth.UnimplementedAuthServiceServer
 }

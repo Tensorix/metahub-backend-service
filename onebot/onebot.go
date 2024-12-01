@@ -18,6 +18,7 @@ var (
 
 type Onebot struct {
 	Username        string
+	AccountTag      string
 	IP              string
 	Port            int
 	mux             *http.ServeMux
@@ -57,11 +58,12 @@ type ActionRequest struct {
 	} `json:"params"`
 }
 
-func NewOnebot(username string, ip string, port int) *Onebot {
+func NewOnebot(username string, accountTag string, ip string, port int) *Onebot {
 	bot := Onebot{
-		Username: username,
-		IP:       ip,
-		Port:     port,
+		Username:  username,
+		AccountTag: accountTag,
+		IP:        ip,
+		Port:      port,
 		msgsignal: make(chan struct{}),
 	}
 	bot.Register()

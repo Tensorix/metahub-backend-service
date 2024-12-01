@@ -3,9 +3,11 @@ package authpage
 import (
 	"context"
 	"errors"
+	"log"
 	"time"
 
 	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
+	"github.com/Tensorix/metahub-backend-service/onebot"
 	"github.com/golang-jwt/jwt/v5"
 	"gorm.io/gorm"
 )
@@ -39,7 +41,20 @@ func (s *server) Login(_ context.Context, in *auth.LoginRequest) (*auth.LoginRes
 	}
 	result.Token = t
 
-	
+	var accounts []Account
+
+	if err := db.Where("user_id = ?", user.Id).Find(&accounts).Error; err != nil {
+        log.Println(err)
+    }
+
+	for _, account := range accounts {
+		var srv Srv
+		db.First(&srv, "id = ?", account.SrvId)
+        bot := *onebot.NewOnebot(user.Username, account.AccountTag, srv.IpAddr, srv.Port)
+        bot.Run()
+		bots = append(bots, bot)
+        log.Println("New bot:", bot.Username, bot.AccountTag, bot.IP, bot.Port)
+	}
 
 	return result, nil
 }
