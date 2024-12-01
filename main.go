@@ -38,7 +38,7 @@ func main() {
 	bots := make([]onebot.Onebot, max_bot)
 
 	// Register start
-	authpage.Register(s, db, &bots)
+	authpage.Register(s, db, bots)
 	notifypage.Register(s)
 	// Register end
 

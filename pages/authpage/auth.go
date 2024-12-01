@@ -14,7 +14,7 @@ var (
 	secretKey []byte
 	expireAt  = 24 * time.Hour
 	db        *gorm.DB
-	bot *[]onebot.Onebot
+	bots      []onebot.Onebot
 )
 
 type User struct {
@@ -26,7 +26,7 @@ type server struct {
 	auth.UnimplementedAuthServiceServer
 }
 
-func Register(s *grpc.Server, gormdb *gorm.DB, _bot *[]onebot.Onebot) {
+func Register(s *grpc.Server, gormdb *gorm.DB, _bots []onebot.Onebot) {
 	var err error
 	secretKey, err = os.ReadFile("secret.img")
 	if err != nil {
@@ -34,5 +34,5 @@ func Register(s *grpc.Server, gormdb *gorm.DB, _bot *[]onebot.Onebot) {
 	}
 	auth.RegisterAuthServiceServer(s, &server{})
 	db = gormdb
-	bot = _bot
+	bots = _bots
 }
