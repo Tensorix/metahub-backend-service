@@ -27,13 +27,14 @@ func (s *server) Heartbeat(in *auth.CheckRequest, stream grpc.ServerStreamingSer
 			if bot == nil {
 				break
 			}
-			if bot.Username == username {
-				detail := &notify.Detail{
-					Connected:  bot.Avaliable(),
-					AccountTag: bot.AccountTag,
-				}
-				details = append(details, detail)
+			if bot.Username != username {
+				continue
 			}
+			detail := &notify.Detail{
+				Connected:  bot.Avaliable(),
+				AccountTag: bot.AccountTag,
+			}
+			details = append(details, detail)
 		}
 		response := notify.HeartbeatResponse{
 			Result:   auth.CheckResult_CHECK_RESULT_SUCCESS,
