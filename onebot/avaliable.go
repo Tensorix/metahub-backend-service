@@ -6,5 +6,5 @@ import (
 
 func (bot *Onebot) Avaliable() bool {
 	timestamp := time.Now().Unix()
-	return timestamp < bot.avaliableBefore
+	return timestamp < bot.avaliableBefore + 1
 }
