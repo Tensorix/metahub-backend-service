@@ -11,7 +11,7 @@ type FriendList struct {
 	Status  string `json:"status"`
 	Retcode int    `json:"retcode"`
 	Data    []struct {
-		UserID   int    `json:"user_id"`
+		UserID   int64  `json:"user_id"`
 		Nickname string `json:"nickname"`
 		Remark   string `json:"remark"`
 	} `json:"data"`
