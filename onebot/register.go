@@ -51,10 +51,10 @@ func (bot *Onebot) multiHander() error {
 			switch data.MetaEventType {
 			case "lifecycle":
 				log.Println("exec Lifecycle")
-				err = bot.Lifecycle()
+				err = bot.lifecycle()
 			case "heartbeat":
 				log.Println("exec Heartbeat")
-				err = bot.Heartbeat()
+				err = bot.heartbeat()
 			}
 		default:
 			bot.msgSignal <- struct{}{}

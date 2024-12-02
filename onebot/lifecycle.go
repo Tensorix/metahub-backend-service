@@ -13,7 +13,7 @@ type Lifecycle struct {
 	PostType      string `json:"post_type"`
 }
 
-func (bot *Onebot) Lifecycle() error {
+func (bot *Onebot) lifecycle() error {
 	var lifecycle Lifecycle
 	err := json.Unmarshal(bot.message, &lifecycle)
 	if err != nil {
