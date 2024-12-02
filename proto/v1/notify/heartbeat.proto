@@ -14,7 +14,3 @@ message HeartbeatResponse {
     repeated Detail details = 2;
     int32 interval = 3;
 }
-
-message HeartbeatRequest {
-    string token = 1;
-}

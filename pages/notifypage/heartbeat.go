@@ -3,7 +3,7 @@ package notifypage
 import (
 	"time"
 
-	protov1 "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
+	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
 	notify "github.com/Tensorix/metahub-backend-service/gen/proto/v1/notify"
 	"github.com/Tensorix/metahub-backend-service/pages/authpage"
 	"google.golang.org/grpc"
@@ -11,12 +11,12 @@ import (
 
 var interval = 5 * time.Second
 
-func (s *server) Heartbeat(in *notify.HeartbeatRequest, stream grpc.ServerStreamingServer[notify.HeartbeatResponse]) error {
+func (s *server) Heartbeat(in *auth.CheckRequest, stream grpc.ServerStreamingServer[notify.HeartbeatResponse]) error {
 	token := in.Token
 	username := authpage.GetUsername(token)
-	if username == ""{
+	if username == "" {
 		response := notify.HeartbeatResponse{
-			Result: protov1.CheckResult_CHECK_RESULT_FAILED,
+			Result: auth.CheckResult_CHECK_RESULT_FAILED,
 		}
 		stream.Send(&response)
 		return nil
@@ -36,7 +36,7 @@ func (s *server) Heartbeat(in *notify.HeartbeatRequest, stream grpc.ServerStream
 			}
 		}
 		response := notify.HeartbeatResponse{
-			Result:   protov1.CheckResult_CHECK_RESULT_SUCCESS,
+			Result:   auth.CheckResult_CHECK_RESULT_SUCCESS,
 			Details:  details,
 			Interval: int32(interval / time.Millisecond),
 		}

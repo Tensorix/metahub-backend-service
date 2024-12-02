@@ -4,8 +4,8 @@ package proto.v1;
 
 
 import "proto/v1/notify/heartbeat.proto";
-
+import "proto/v1/auth/check.proto";
 
 service NotifyService {
-  rpc Heartbeat(HeartbeatRequest) returns (stream HeartbeatResponse) {}
+  rpc Heartbeat(CheckRequest) returns (stream HeartbeatResponse) {}
 }
