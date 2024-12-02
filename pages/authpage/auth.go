@@ -52,5 +52,5 @@ func Register(s *grpc.Server, gormdb *gorm.DB) {
 	}
 	auth.RegisterAuthServiceServer(s, &server{})
 	db = gormdb
-	Bots = make([]*onebot.Onebot, 10000)
+	Bots = make([]*onebot.Onebot, max_bot)
 }

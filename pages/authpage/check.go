@@ -5,7 +5,6 @@ import (
 	"log"
 
 	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
-	"github.com/golang-jwt/jwt/v5"
 )
 
 func (s *server) Check(_ context.Context, in *auth.CheckRequest) (*auth.CheckResponse, error) {
@@ -22,15 +21,4 @@ func (s *server) Check(_ context.Context, in *auth.CheckRequest) (*auth.CheckRes
 	registerBot(user.Id, username)
 
 	return result, nil
-}
-
-func verifyToken(tokenString string) (string, bool) {
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return secretKey, nil
-	})
-	if err != nil || !token.Valid {
-		return "", false
-	}
-	username, err := token.Claims.GetIssuer()
-	return username, err == nil
 }
