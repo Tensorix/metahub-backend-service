@@ -19,7 +19,8 @@ var (
 )
 
 func main() {
-
+	flag.Parse()
+	fmt.Printf(("Starting server on port %d\n"), *port)
 	// GORM init
 	db, err := gorm.Open(sqlite.Open("mbs.sqlite"), &gorm.Config{TranslateError: true})
 	if err != nil {
