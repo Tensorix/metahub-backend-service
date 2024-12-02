@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package proto.v1;
+
+import "proto/v1/auth/check.proto";
+
+message Friend {
+    int64 user_id = 1;
+    string nickname = 2;
+    string remark = 3;
+}
+
+message FriendList {
+    repeated Friend friends = 1;
+    string account_tag = 2;
+}
+
+message FriendListResponse {
+    CheckResult result = 1;
+    repeated FriendList friend_list = 2;
+}
+
+message FriendListRequest {
+  string token = 1;
+}

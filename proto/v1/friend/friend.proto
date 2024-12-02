@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package proto.v1;
+
+import "proto/v1/friend/get.proto";
+
+service FriendService {
+  rpc GetFriendList(FriendListRequest) returns (FriendListResponse) {}
+}
