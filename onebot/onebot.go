@@ -15,6 +15,9 @@ var (
 )
 
 type Onebot struct {
+	UserID          uint
+	SrvID           uint
+	AccountID       uint
 	Username        string
 	AccountTag      string
 	IP              string
