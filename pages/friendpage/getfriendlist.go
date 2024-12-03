@@ -21,9 +21,6 @@ func (s *server) GetFriendList(_ context.Context, in *friend.FriendListRequest) 
 	}
 	response.Result = auth.CheckResult_CHECK_RESULT_SUCCESS
 	for _, bot := range onebot.Bots {
-		if bot == nil {
-			break
-		}
 		if bot.Username != username {
 			continue
 		}

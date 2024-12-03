@@ -25,9 +25,6 @@ func (s *server) Heartbeat(in *auth.CheckRequest, stream grpc.ServerStreamingSer
 	for {
 		var details []*notify.Detail
 		for _, bot := range onebot.Bots {
-			if bot == nil {
-				break
-			}
 			if bot.Username != username {
 				continue
 			}
