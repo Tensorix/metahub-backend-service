@@ -14,6 +14,7 @@ create table if not exists "srvs"(
 
 create table if not exists "accounts"(
     "id" integer not null primary key autoincrement,
+    "uid" integer not null,
     "account_tag" varchar(16) not null,
     "user_id" integer not null,
     "srv_id" integer not null,
@@ -25,8 +26,9 @@ create table if not exists "friends"(
     "id" integer not null primary key autoincrement,
     "account_id" integer not null,
     "nickname" varchar(128) not null,
-    "uid" varchar(128) not null,
+    "uid" integer not null,
     "remark" varchar(128),
+    "deleted" boolean not null default 0,
     foreign key("account_id") references accounts("id")
 );
 
@@ -38,8 +40,8 @@ create table if not exists "friendmsgs"(
     "self_msg" boolean not null,
     "has_text" boolean not null,
     "has_img" boolean not null,
-    "hide" boolean not null,
-    "revoke" boolean not null,
+    "hide" boolean not null default 0,
+    "revoke" boolean not null default 0,
     foreign key("friend_id") references "friends"("id")
 );
 
@@ -50,7 +52,7 @@ create table if not exists "groups"(
     "group_name" varchar(128) not null,
     "member_count" integer not null,
     "max_member_count" integer not null,
-    "deleted" boolean not null,
+    "deleted" boolean not null default 0,
     foreign key("account_id") references "accounts"("id")
 );
 
@@ -69,8 +71,8 @@ create table if not exists "groupmsgs"(
     "msg_ts" integer not null,
     "has_text" boolean not null,
     "has_img" boolean not null,
-    "hide" boolean not null,
-    "revoke" boolean not null,
+    "hide" boolean not null default 0,
+    "revoke" boolean not null default 0,
     foreign key("group_id") references "groups"("id")
 );
 
