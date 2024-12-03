@@ -71,8 +71,8 @@ func registerBot(id uint, username string) {
 		for i := 0; i < len(Bots); i++ {
 			if Bots[i] == nil {
 				Bots[i] = bot
+				break
 			}
-			break
 		}
 		// Bots = append(Bots, &bot)
 		log.Println("New bot:", bot.Username, bot.AccountTag, bot.IP, bot.Port)
