@@ -20,7 +20,7 @@ type FriendList struct {
 
 type Friend struct {
 	Id        uint
-	AccountId uint
+	AccountID uint
 	Nickname  string
 	UID       int64
 	Remark    string
@@ -60,7 +60,7 @@ func (bot *Onebot) GetFriendList() ([]Friend, error) {
 		}
 		if !exist {
 			friends = append(friends, Friend{
-				AccountId: bot.AccountID,
+				AccountID: bot.AccountID,
 				Nickname: fl.Data[i].Nickname,
 				UID: fl.Data[i].UserID,
 				Remark: fl.Data[i].Remark,
