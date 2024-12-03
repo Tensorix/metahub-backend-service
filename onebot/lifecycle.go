@@ -21,6 +21,6 @@ func (bot *Onebot) lifecycle() error {
 		return nil
 	}
 
-	bot.UID = lifecycle.SelfID
+	bot.realUID = lifecycle.SelfID
 	return nil
 }

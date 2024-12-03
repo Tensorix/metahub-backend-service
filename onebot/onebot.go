@@ -18,6 +18,7 @@ type Onebot struct {
 	UserID          uint
 	SrvID           uint
 	AccountID       uint
+	UID             uint
 	Username        string
 	AccountTag      string
 	IP              string
@@ -27,7 +28,7 @@ type Onebot struct {
 	writer          http.ResponseWriter
 	request         *http.Request
 	Running         bool
-	UID             int64
+	realUID         int64
 	registed        bool
 	avaliableBefore int64
 	conn            *websocket.Conn

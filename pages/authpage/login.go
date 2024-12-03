@@ -64,6 +64,7 @@ func registerBot(id uint, username string) {
 		var srv Srv
 		db.First(&srv, "id = ?", account.SrvId)
 		bot := onebot.NewOnebot(username, account.AccountTag, srv.IpAddr, srv.Port)
+		bot.UID = account.UID
 		bot.UserID = id
 		bot.AccountID = account.Id
 		bot.SrvID = account.SrvId

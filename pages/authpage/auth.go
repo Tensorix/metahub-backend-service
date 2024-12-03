@@ -27,6 +27,7 @@ type User struct {
 
 type Account struct {
 	Id         uint
+	UID        uint
 	AccountTag string
 	UserId     uint
 	SrvId      uint
