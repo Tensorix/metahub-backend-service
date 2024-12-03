@@ -27,6 +27,8 @@ func (bot *Onebot) Register() {
 type MessageData struct {
 	PostType      string `json:"post_type"`
 	MetaEventType string `json:"meta_event_type"`
+	MessageType string `json:"message_type"`
+	SubType     string `json:"sub_type"`
 }
 
 func (bot *Onebot) multiHander() error {
@@ -56,6 +58,14 @@ func (bot *Onebot) multiHander() error {
 			case "heartbeat":
 				log.Println("exec Heartbeat")
 				err = bot.heartbeat()
+			}
+		case "message":
+			switch data.MessageType {
+			case "private":
+				log.Println("exec PrivateMessage")
+				err = bot.privateMessage()
+			case "group":
+				log.Println("exec GroupMessage")
 			}
 		default:
 			bot.msgSignal <- struct{}{}

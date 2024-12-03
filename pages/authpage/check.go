@@ -5,6 +5,7 @@ import (
 	"log"
 
 	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
+	"github.com/Tensorix/metahub-backend-service/onebot"
 )
 
 func (s *server) Check(_ context.Context, in *auth.CheckRequest) (*auth.CheckResponse, error) {
@@ -15,10 +16,9 @@ func (s *server) Check(_ context.Context, in *auth.CheckRequest) (*auth.CheckRes
 	t := in.GetToken()
 	username := GetUsername(t)
 
-	if err := db.First(&user, "username = ?", username).Error; err != nil {
+	if err := onebot.DB.First(&user, "username = ?", username).Error; err != nil {
 		log.Println(err)
 	}
-	registerBot(user.Id, username)
 
 	return result, nil
 }

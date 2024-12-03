@@ -5,6 +5,7 @@ import (
 
 	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
 	notify "github.com/Tensorix/metahub-backend-service/gen/proto/v1/notify"
+	"github.com/Tensorix/metahub-backend-service/onebot"
 	"github.com/Tensorix/metahub-backend-service/pages/authpage"
 	"google.golang.org/grpc"
 )
@@ -23,13 +24,14 @@ func (s *server) Heartbeat(in *auth.CheckRequest, stream grpc.ServerStreamingSer
 	}
 	for {
 		var details []*notify.Detail
-		for _, bot := range bots {
+		for _, bot := range onebot.Bots {
 			if bot == nil {
 				break
 			}
 			if bot.Username != username {
 				continue
 			}
+			
 			detail := &notify.Detail{
 				Connected:  bot.Avaliable(),
 				AccountTag: bot.AccountTag,

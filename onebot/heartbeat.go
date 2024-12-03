@@ -7,7 +7,6 @@ import (
 
 type Heartbeat struct {
 	Interval      int      `json:"interval"`
-	Status        struct{} `json:"status"`
 	MetaEventType string   `json:"meta_event_type"`
 	Time          int      `json:"time"`
 	SelfID        int      `json:"self_id"`

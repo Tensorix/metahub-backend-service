@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/websocket"
+	"gorm.io/gorm"
 )
 
 var (
@@ -12,10 +13,12 @@ var (
 			return true
 		},
 	}
+	DB   *gorm.DB
+	Bots = make([]*Onebot, 0)
 )
 
 type Onebot struct {
-	UserID          uint
+	UserID          int64
 	SrvID           uint
 	AccountID       uint
 	UID             uint
@@ -34,6 +37,7 @@ type Onebot struct {
 	conn            *websocket.Conn
 	message         []byte
 	msgSignal       chan struct{}
+	PrivateMessage  chan struct{}
 }
 
 type ActionRequest struct {
@@ -61,11 +65,12 @@ type ActionRequest struct {
 
 func NewOnebot(username string, accountTag string, ip string, port int) *Onebot {
 	bot := Onebot{
-		Username:   username,
-		AccountTag: accountTag,
-		IP:         ip,
-		Port:       port,
-		msgSignal:  make(chan struct{}),
+		Username:       username,
+		AccountTag:     accountTag,
+		IP:             ip,
+		Port:           port,
+		msgSignal:      make(chan struct{}),
+		PrivateMessage: make(chan struct{}),
 	}
 	bot.Register()
 	return &bot

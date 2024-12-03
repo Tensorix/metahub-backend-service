@@ -4,6 +4,7 @@ import (
 	"context"
 
 	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
+	"github.com/Tensorix/metahub-backend-service/onebot"
 )
 
 func (s *server) Register(_ context.Context, in *auth.RegisterRequest) (*auth.RegisterResponse, error) {
@@ -18,13 +19,13 @@ func (s *server) Register(_ context.Context, in *auth.RegisterRequest) (*auth.Re
 		return response, nil
 	}
 	var user User
-	err = db.First(&user, "username = ?", username).Error
+	err = onebot.DB.First(&user, "username = ?", username).Error
 	if err == nil {
 		response.Result = auth.RegisterResult_REGISTER_RESULT_EXISTS
 		return response, nil
 	}
 	user = User{Username: username, Pwd: password}
-	err = db.Create(&user).Error
+	err = onebot.DB.Create(&user).Error
 	if err != nil {
 		response.Result = auth.RegisterResult_REGISTER_RESULT_UNSPECIFIED
 	}

@@ -5,7 +5,9 @@ package proto.v1;
 
 import "proto/v1/notify/heartbeat.proto";
 import "proto/v1/auth/check.proto";
+import "proto/v1/notify/privatemessage.proto";
 
 service NotifyService {
   rpc Heartbeat(CheckRequest) returns (stream HeartbeatResponse) {}
+  rpc PrivateMessage(CheckRequest) returns (stream PrivateMessageResponse) {}
 }

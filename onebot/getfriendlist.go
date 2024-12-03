@@ -3,6 +3,7 @@ package onebot
 import (
 	"encoding/json"
 	"errors"
+	"log"
 
 	"github.com/gorilla/websocket"
 )
@@ -17,20 +18,56 @@ type FriendList struct {
 	} `json:"data"`
 }
 
-func (bot *Onebot) GetFriendList() (FriendList, error) {
+type Friend struct {
+	Id        uint
+	AccountId uint
+	Nickname  string
+	UID       int64
+	Remark    string
+	Deleted   bool
+}
+
+func (bot *Onebot) GetFriendList() ([]Friend, error) {
 	var fl FriendList
+	var friends []Friend
 	action := ActionRequest{
 		Action: "get_friend_list",
 	}
 	if !bot.Avaliable() {
-		return fl, errors.New("bot is not avaliable")
+		return friends, errors.New("bot is not avaliable")
 	}
 	data, err := json.Marshal(action)
 	if err != nil {
-		return fl, err
+		return friends, err
 	}
 	bot.conn.WriteMessage(websocket.TextMessage, data)
 	<-bot.msgSignal
 	json.Unmarshal(bot.message, &fl)
-	return fl, nil
+	if err := DB.Where("account_id = ?", bot.AccountID).Find(&friends).Error; err != nil {
+		log.Println(err)
+	}
+	for i := 0; i < len(friends); i++ {
+		friends[i].Deleted = true
+	}
+	for i := 0; i < len(fl.Data); i++ {
+		exist := false
+		for j := 0; j < len(friends); j++ {
+			if fl.Data[i].UserID == friends[j].UID {
+				exist = true
+				friends[j].Deleted = false
+				break
+			}
+		}
+		if !exist {
+			friends = append(friends, Friend{
+				AccountId: bot.AccountID,
+				Nickname: fl.Data[i].Nickname,
+				UID: fl.Data[i].UserID,
+				Remark: fl.Data[i].Remark,
+				Deleted: false,
+			})
+		}
+	}
+	DB.Save(friends)
+	return friends, nil
 }
