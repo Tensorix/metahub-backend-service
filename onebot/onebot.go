@@ -24,7 +24,7 @@ type Onebot struct {
 	writer          http.ResponseWriter
 	request         *http.Request
 	Running         bool
-	AccountId       int64
+	UID             int64
 	registed        bool
 	avaliableBefore int64
 	conn            *websocket.Conn
