@@ -21,7 +21,7 @@ type Onebot struct {
 	UserID          int64
 	SrvID           uint
 	AccountID       uint
-	UID             uint
+	UID             int64
 	Username        string
 	AccountTag      string
 	IP              string
@@ -37,7 +37,7 @@ type Onebot struct {
 	conn            *websocket.Conn
 	message         []byte
 	msgSignal       chan struct{}
-	PrivateMessage  chan struct{}
+	FriendMessage  chan struct{}
 }
 
 type ActionRequest struct {
@@ -70,7 +70,7 @@ func NewOnebot(username string, accountTag string, ip string, port int) *Onebot 
 		IP:             ip,
 		Port:           port,
 		msgSignal:      make(chan struct{}),
-		PrivateMessage: make(chan struct{}),
+		FriendMessage: make(chan struct{}),
 	}
 	bot.Register()
 	return &bot

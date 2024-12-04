@@ -27,8 +27,8 @@ func (bot *Onebot) Register() {
 type MessageData struct {
 	PostType      string `json:"post_type"`
 	MetaEventType string `json:"meta_event_type"`
-	MessageType string `json:"message_type"`
-	SubType     string `json:"sub_type"`
+	MessageType   string `json:"message_type"`
+	SubType       string `json:"sub_type"`
 }
 
 func (bot *Onebot) multiHander() error {
@@ -63,7 +63,7 @@ func (bot *Onebot) multiHander() error {
 			switch data.MessageType {
 			case "private":
 				log.Println("exec PrivateMessage")
-				err = bot.privateMessage()
+				err = bot.friendMessage()
 			case "group":
 				log.Println("exec GroupMessage")
 			}

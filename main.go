@@ -22,7 +22,7 @@ var (
 
 type Account struct {
 	Id         uint
-	UID        uint
+	UID        int64
 	AccountTag string
 	UserId     uint
 	SrvId      uint
