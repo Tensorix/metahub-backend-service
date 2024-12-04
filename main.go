@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var (
@@ -39,7 +40,7 @@ func main() {
 	flag.Parse()
 	fmt.Printf(("Starting server on port %d\n"), *port)
 	// GORM init
-	db, err := gorm.Open(sqlite.Open("mbs.sqlite"), &gorm.Config{TranslateError: true})
+	db, err := gorm.Open(sqlite.Open("mbs.sqlite"), &gorm.Config{TranslateError: true, Logger: logger.Default.LogMode(logger.Info)})
 	if err != nil {
 		panic(err)
 	}
