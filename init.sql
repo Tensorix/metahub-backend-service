@@ -32,17 +32,24 @@ create table if not exists "friends"(
     foreign key("account_id") references accounts("id")
 );
 
-create table if not exists "friendmsgs"(
+create table if not exists "friend_messages"(
     "id" integer not null primary key autoincrement,
-    "msg_id" integer not null,
     "friend_id" integer not null,
-    "msg_ts" integer not null,
-    "self_msg" boolean not null,
-    "has_text" boolean not null,
-    "has_img" boolean not null,
+    "message_id" integer not null,
+    "message_ts" integer not null,
+    "self_message" boolean not null,
+    "read_mark" boolean not null default 0,
     "hide" boolean not null default 0,
     "revoke" boolean not null default 0,
     foreign key("friend_id") references "friends"("id")
+);
+
+create table if not exists "friend_sub_messages"(
+    "id" integer not null primary key autoincrement,
+    "friend_message_id" integer not null,
+    "is_text" integer not null,
+    "message" integer not null,
+    foreign key("friend_message_id") references "friend_messages"("id")
 );
 
 create table if not exists "groups"(
@@ -80,7 +87,6 @@ create table if not exists "texts"(
     "id" integer not null primary key autoincrement,
     "pid" integer,
     "gid" integer,
-    "msg_index" integer not null,
     "msg" text not null
 );
 
@@ -88,6 +94,5 @@ create table if not exists "imgs"(
     "id" integer not null primary key autoincrement,
     "pid" integer,
     "gid" integer,
-    "msg_index" integer not null,
     "file_name" varchar(32) not null
 );
