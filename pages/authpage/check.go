@@ -16,8 +16,15 @@ func (s *server) Check(_ context.Context, in *auth.CheckRequest) (*auth.CheckRes
 	t := in.GetToken()
 	username := GetUsername(t)
 
+	if username == "" {
+		result.Result = auth.CheckResult_CHECK_RESULT_FAILED
+		return result, nil
+	}
+
 	if err := onebot.DB.First(&user, "username = ?", username).Error; err != nil {
+		result.Result = auth.CheckResult_CHECK_RESULT_FAILED
 		log.Println(err)
+		return result, nil
 	}
 
 	return result, nil
