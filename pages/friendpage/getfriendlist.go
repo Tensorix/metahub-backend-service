@@ -40,10 +40,6 @@ func (s *server) GetFriendList(_ context.Context, in *friend.FriendListRequest) 
 			})
 		}
 		response.FriendList = append(response.FriendList, fl)
-		if err != nil {
-			log.Printf("bot %d: %s\n", bot.AccountID, err)
-			continue
-		}
 	}
 	return response, nil
 }
