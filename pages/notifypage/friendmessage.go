@@ -61,10 +61,11 @@ func (s *server) FriendMessage(in *auth.CheckRequest, stream grpc.ServerStreamin
 							err := stream.Send(&notify.FriendMessageResponse{
 								SelfId:    bot.UID,
 								MessageId: msg.MessageID,
+								Timestamp: msg.MessageTS,
 								Msg:       notifyMessage,
 							})
 							if err != nil {
-								log.Println("close thread")
+								log.Println(err)
 								close()
 							}
 						}
