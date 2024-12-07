@@ -2,6 +2,7 @@ package onebot
 
 import (
 	"net/http"
+	"sync"
 
 	"github.com/gorilla/websocket"
 	"gorm.io/gorm"
@@ -37,7 +38,8 @@ type Onebot struct {
 	conn            *websocket.Conn
 	message         []byte
 	msgSignal       chan struct{}
-	FriendMessage  chan struct{}
+	FriendMessage   chan struct{}
+	mutex           sync.Mutex
 }
 
 type ActionRequest struct {
@@ -65,11 +67,11 @@ type ActionRequest struct {
 
 func NewOnebot(username string, accountTag string, ip string, port int) *Onebot {
 	bot := Onebot{
-		Username:       username,
-		AccountTag:     accountTag,
-		IP:             ip,
-		Port:           port,
-		msgSignal:      make(chan struct{}),
+		Username:      username,
+		AccountTag:    accountTag,
+		IP:            ip,
+		Port:          port,
+		msgSignal:     make(chan struct{}),
 		FriendMessage: make(chan struct{}),
 	}
 	bot.Register()

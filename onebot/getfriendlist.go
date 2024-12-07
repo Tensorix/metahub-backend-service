@@ -40,8 +40,10 @@ func (bot *Onebot) GetFriendList() ([]Friend, error) {
 	if err != nil {
 		return friends, err
 	}
+	bot.mutex.Lock()
 	bot.conn.WriteMessage(websocket.TextMessage, data)
 	<-bot.msgSignal
+	bot.mutex.Unlock()
 	json.Unmarshal(bot.message, &fl)
 	if err := DB.Where("account_id = ?", bot.AccountID).Find(&friends).Error; err != nil {
 		log.Println(err)
