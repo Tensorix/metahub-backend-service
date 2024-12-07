@@ -23,5 +23,8 @@ message FriendMessageResponse {
     bool self_message = 4;
     int64 message_id = 5;
     uint32 timestamp = 6;
-    repeated Message msg = 7;
+    bool read_mark = 7;
+    bool hide = 8;
+    bool revoke = 9;
+    repeated Message msg = 10;
 }
