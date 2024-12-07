@@ -24,15 +24,19 @@ func (s *server) GetFriendList(_ context.Context, in *friend.FriendListRequest) 
 		if bot.Username != username {
 			continue
 		}
-		fl := &friend.FriendList {
+		fl := &friend.FriendList{
 			AccountTag: bot.AccountTag,
 		}
 		friends, err := bot.GetFriendList()
+		if err != nil {
+			log.Println(err)
+			return response, err
+		}
 		for _, f := range friends {
 			fl.Friends = append(fl.Friends, &friend.Friend{
-				UserId: f.UID,
+				UserId:   f.UID,
 				Nickname: f.Nickname,
-				Remark: f.Remark,
+				Remark:   f.Remark,
 			})
 		}
 		response.FriendList = append(response.FriendList, fl)
