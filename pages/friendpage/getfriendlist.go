@@ -34,7 +34,7 @@ func (s *server) GetFriendList(_ context.Context, in *friend.FriendListRequest) 
 		}
 		for _, f := range friends {
 			fl.Friends = append(fl.Friends, &friend.Friend{
-				UserId:   f.UID,
+				UserId:   f.Id,
 				Nickname: f.Nickname,
 				Remark:   f.Remark,
 			})
