@@ -6,17 +6,17 @@ import (
 	"time"
 
 	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
-	notify "github.com/Tensorix/metahub-backend-service/gen/proto/v1/notify"
+	message "github.com/Tensorix/metahub-backend-service/gen/proto/v1/message"
 	"github.com/Tensorix/metahub-backend-service/onebot"
 	"github.com/Tensorix/metahub-backend-service/pages/authpage"
 	"google.golang.org/grpc"
 )
 
-func (s *server) FriendMessage(in *auth.CheckRequest, stream grpc.ServerStreamingServer[notify.FriendMessageResponse]) error {
+func (s *server) FriendMessage(in *auth.CheckRequest, stream grpc.ServerStreamingServer[message.FriendMessageResponse]) error {
 	token := in.Token
 	username := authpage.GetUsername(token)
 	if username == "" {
-		response := notify.FriendMessageResponse{
+		response := message.FriendMessageResponse{
 			Result: auth.CheckResult_CHECK_RESULT_FAILED,
 		}
 		stream.Send(&response)
@@ -44,25 +44,28 @@ func (s *server) FriendMessage(in *auth.CheckRequest, stream grpc.ServerStreamin
 						}
 						for _, msg := range messages {
 							var subMessages []onebot.FriendSubMessage
-							var notifyMessage []*notify.Message
+							var notifyMessage []*message.Message
 							if err := onebot.DB.Where("friend_message_id = ?", msg.ID).Find(&subMessages).Error; err != nil {
 								log.Println(err)
 							}
 							for _, subMsg := range subMessages {
-								t := notify.MessageType_MESSAGE_TYPE_IMAGE
+								t := message.MessageType_MESSAGE_TYPE_IMAGE
 								if subMsg.IsText {
-									t = notify.MessageType_MESSAGE_TYPE_TEXT
+									t = message.MessageType_MESSAGE_TYPE_TEXT
 								}
-								notifyMessage = append(notifyMessage, &notify.Message{
+								notifyMessage = append(notifyMessage, &message.Message{
 									Type: t,
 									Text: subMsg.Message,
 								})
 							}
-							err := stream.Send(&notify.FriendMessageResponse{
-								SelfId:    bot.UID,
-								MessageId: msg.MessageID,
-								Timestamp: msg.MessageTS,
-								Msg:       notifyMessage,
+							err := stream.Send(&message.FriendMessageResponse{
+								Result:      auth.CheckResult_CHECK_RESULT_SUCCESS,
+								SelfId:      bot.UID,
+								FriendId:    msg.FriendID,
+								SelfMessage: false,
+								MessageId:   msg.MessageID,
+								Timestamp:   msg.MessageTS,
+								Msg:         notifyMessage,
 							})
 							if err != nil {
 								log.Println(err)
@@ -73,7 +76,7 @@ func (s *server) FriendMessage(in *auth.CheckRequest, stream grpc.ServerStreamin
 					ts = time.Now().Unix()
 				case <-ctx.Done():
 					return
-				case <- stream.Context().Done():
+				case <-stream.Context().Done():
 					close()
 				}
 			}

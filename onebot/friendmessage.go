@@ -19,14 +19,14 @@ type BotFriendMessage struct {
 			SubType  int    `json:"subType"`
 		} `json:"data"`
 	} `json:"message"`
-	Time uint64 `json:"time"`
+	Time uint32 `json:"time"`
 }
 
 type FriendMessage struct {
 	ID          uint
 	MessageID   int64
 	FriendID    int64
-	MessageTS   uint64
+	MessageTS   uint32
 	SelfMessage bool
 	ReadMark    bool
 	Hide        bool
