@@ -13,25 +13,15 @@ import (
 type BotFriendMessage struct {
 	MessageID int64 `json:"message_id"`
 	UserID    int64 `json:"user_id"`
-	Message   []struct {
-		Type string `json:"type"`
-		Data struct {
-			Text     string `json:"text"`
-			File     string `json:"file"`
-			Filename string `json:"filename"`
-			URL      string `json:"url"`
-			Summary  string `json:"summary"`
-			SubType  int    `json:"subType"`
-		} `json:"data"`
-	} `json:"message"`
-	Time uint32 `json:"time"`
+	Message   []Message `json:"message"`
+	Time int64 `json:"time"`
 }
 
 type FriendMessage struct {
 	ID          uint
 	MessageID   int64
 	FriendID    int64
-	MessageTS   uint32
+	MessageTS   int64
 	SelfMessage bool
 	ReadMark    bool
 	Hide        bool

@@ -21,7 +21,7 @@ var (
 )
 
 type Account struct {
-	Id         uint
+	Id         int64
 	UID        int64
 	AccountTag string
 	UserId     uint

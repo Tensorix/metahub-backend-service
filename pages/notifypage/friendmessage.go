@@ -7,17 +7,18 @@ import (
 	"time"
 
 	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
-	message "github.com/Tensorix/metahub-backend-service/gen/proto/v1/message"
+	notify "github.com/Tensorix/metahub-backend-service/gen/proto/v1/notify"
+	friend "github.com/Tensorix/metahub-backend-service/gen/proto/v1/friend"
 	"github.com/Tensorix/metahub-backend-service/onebot"
 	"github.com/Tensorix/metahub-backend-service/pages/authpage"
 	"google.golang.org/grpc"
 )
 
-func (s *server) FriendMessage(in *auth.CheckRequest, stream grpc.ServerStreamingServer[message.FriendMessageResponse]) error {
+func (s *server) FriendMessage(in *auth.CheckRequest, stream grpc.ServerStreamingServer[notify.FriendMessageResponse]) error {
 	token := in.Token
 	username := authpage.GetUsername(token)
 	if username == "" {
-		response := message.FriendMessageResponse{
+		response := notify.FriendMessageResponse{
 			Result: auth.CheckResult_CHECK_RESULT_FAILED,
 		}
 		stream.Send(&response)
@@ -40,35 +41,34 @@ func (s *server) FriendMessage(in *auth.CheckRequest, stream grpc.ServerStreamin
 					}
 					for _, f := range friends {
 						var messages []onebot.FriendMessage
-						if err := onebot.DB.Where("message_ts > ? AND friend_id = ?", ts, f.Id).Find(&messages).Error; err != nil {
+						if err := onebot.DB.Where("message_ts > ? AND friend_id = ? AND self_message = 0", ts, f.Id).Find(&messages).Error; err != nil {
 							log.Println(err)
 						}
 						for _, msg := range messages {
 							var subMessages []onebot.FriendSubMessage
-							var notifyMessage []*message.Message
+							var notifyMessage []*friend.Message
 							if err := onebot.DB.Where("friend_message_id = ?", msg.ID).Find(&subMessages).Error; err != nil {
 								log.Println(err)
 							}
 							for _, subMsg := range subMessages {
-								t := message.MessageType_MESSAGE_TYPE_TEXT
+								t := friend.MessageType_MESSAGE_TYPE_TEXT
 								content := []byte(subMsg.Message)
 								if !subMsg.IsText {
-									t = message.MessageType_MESSAGE_TYPE_IMAGE
-									log.Println("read",subMsg.Message)
+									t = friend.MessageType_MESSAGE_TYPE_IMAGE
+									log.Println("read", subMsg.Message)
 									var err error
-									content,err = os.ReadFile("cache/images/"+subMsg.Message)
+									content, err = os.ReadFile("cache/images/" + subMsg.Message)
 									if err != nil {
 										log.Println(err)
 									}
 								}
-								notifyMessage = append(notifyMessage, &message.Message{
+								notifyMessage = append(notifyMessage, &friend.Message{
 									Type:    t,
 									Content: content,
 								})
 							}
-							err := stream.Send(&message.FriendMessageResponse{
+							err := stream.Send(&notify.FriendMessageResponse{
 								Result:      auth.CheckResult_CHECK_RESULT_SUCCESS,
-								SelfId:      bot.UID,
 								FriendId:    msg.FriendID,
 								SelfMessage: false,
 								MessageId:   msg.MessageID,

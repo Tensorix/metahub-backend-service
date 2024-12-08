@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package proto.v1;
+
+enum MessageType {
+  MESSAGE_TYPE_UNSPECIFIED = 0;
+  MESSAGE_TYPE_TEXT = 1;
+  MESSAGE_TYPE_IMAGE = 2;
+  MESSAGE_TYPE_FACE = 3;
+}
+
+message Message {
+    MessageType type = 1;
+    bytes content = 2;
+}

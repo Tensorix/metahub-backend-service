@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package proto.v1;
+
+import "proto/v1/auth/check.proto";
+import "proto/v1/friend/message.proto";
+
+message SendRequest {
+    CheckRequest token = 1;
+    string account_tag = 2;
+    int64 friend_id = 3;
+    repeated Message messages = 4;
+}
+
+message SendResponse {
+    CheckResult result = 1;
+    int64 message_id = 2;
+}

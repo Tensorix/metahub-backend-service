@@ -21,7 +21,7 @@ var (
 type Onebot struct {
 	UserID          int64
 	SrvID           uint
-	AccountID       uint
+	AccountID       int64
 	UID             int64
 	Username        string
 	AccountTag      string
@@ -42,27 +42,43 @@ type Onebot struct {
 	mutex           sync.Mutex
 }
 
+type MessageData struct {
+	Text     string `json:"text"`
+	File     string `json:"file"`
+	Filename string `json:"filename"`
+	URL      string `json:"url"`
+	Summary  string `json:"summary"`
+	SubType  int    `json:"subType"`
+}
+
+type Message struct {
+	Type string `json:"type"`
+	Data MessageData `json:"data"`
+}
+
+type ActionParams struct {
+	GroupID     int      `json:"group_id"`
+	Message     []Message `json:"message"`
+	AutoEscape  bool     `json:"auto_escape"`
+	MessageType string   `json:"message_type"`
+	MessageID   int      `json:"message_id"`
+	ID          string   `json:"id"`
+	UserID      int64    `json:"user_id"`
+	Times       int      `json:"times"`
+	Duration    int      `json:"duration"`
+	Enable      bool     `json:"enable"`
+	Card        string   `json:"card"`
+	GroupName   string   `json:"group_name"`
+	IsDismiss   bool     `json:"is_dismiss"`
+	Flag        string   `json:"flag"`
+	Approve     bool     `json:"approve"`
+	Remark      string   `json:"remark"`
+	Nickname    string   `json:"nickname"`
+}
+
 type ActionRequest struct {
-	Action string `json:"action"`
-	Params struct {
-		GroupID     int    `json:"group_id"`
-		Message     string `json:"message"`
-		AutoEscape  bool   `json:"auto_escape"`
-		MessageType string `json:"message_type"`
-		MessageID   int    `json:"message_id"`
-		ID          string `json:"id"`
-		UserID      string `json:"user_id"`
-		Times       int    `json:"times"`
-		Duration    int    `json:"duration"`
-		Enable      bool   `json:"enable"`
-		Card        string `json:"card"`
-		GroupName   string `json:"group_name"`
-		IsDismiss   bool   `json:"is_dismiss"`
-		Flag        string `json:"flag"`
-		Approve     bool   `json:"approve"`
-		Remark      string `json:"remark"`
-		Nickname    string `json:"nickname"`
-	} `json:"params"`
+	Action string       `json:"action"`
+	Params ActionParams `json:"params"`
 }
 
 func NewOnebot(username string, accountTag string, ip string, port int) *Onebot {

@@ -20,7 +20,7 @@ type FriendList struct {
 
 type Friend struct {
 	Id        int64
-	AccountID uint
+	AccountID int64
 	Nickname  string
 	UID       int64
 	Remark    string

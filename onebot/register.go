@@ -24,7 +24,7 @@ func (bot *Onebot) Register() {
 	bot.registed = true
 }
 
-type MessageData struct {
+type WebsocketData struct {
 	PostType      string `json:"post_type"`
 	MetaEventType string `json:"meta_event_type"`
 	MessageType   string `json:"message_type"`
@@ -40,7 +40,7 @@ func (bot *Onebot) multiHander() error {
 	bot.conn = conn
 
 	for {
-		var data MessageData
+		var data WebsocketData
 		_, message, err := conn.ReadMessage()
 		bot.message = message
 		if err != nil {
