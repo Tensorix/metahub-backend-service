@@ -68,7 +68,7 @@ func (s *server) FriendMessage(in *auth.CheckRequest, stream grpc.ServerStreamin
 								ReadMark:    false,
 								Hide:        false,
 								Revoke:      false,
-								Msg:         notifyMessage,
+								Messages:         notifyMessage,
 							})
 							if err != nil {
 								log.Println(err)

@@ -26,5 +26,5 @@ message FriendMessageResponse {
     bool read_mark = 7;
     bool hide = 8;
     bool revoke = 9;
-    repeated Message msg = 10;
+    repeated Message messages = 10;
 }
