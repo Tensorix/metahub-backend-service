@@ -2,3 +2,4 @@ gen
 mbs.sqlite
 tmp
 secret.img
+cache
