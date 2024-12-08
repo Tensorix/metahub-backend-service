@@ -13,7 +13,7 @@ enum MessageType {
 
 message Message {
     MessageType type = 1;
-    string text = 2;
+    bytes content = 2;
 }
 
 message FriendMessageResponse {

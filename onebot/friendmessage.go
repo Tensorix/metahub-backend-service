@@ -1,8 +1,13 @@
 package onebot
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
+	"io"
 	"log"
+	"net/http"
+	"os"
 )
 
 type BotFriendMessage struct {
@@ -65,9 +70,15 @@ func (bot *Onebot) friendMessage() error {
 	for i := 0; i < len(botmsg.Message); i++ {
 		istext := true
 		msg := botmsg.Message[i].Data.Text
-		if botmsg.Message[i].Type != "text" {
+		switch botmsg.Message[i].Type {
+		case "text":
+		case "image":
 			istext = false
-			msg = botmsg.Message[i].Data.URL
+			filename, err := downloadFile(botmsg.Message[i].Data.URL)
+			if err != nil {
+				log.Println(err)
+			}
+			msg = filename
 		}
 		friendSubMessages = append(friendSubMessages, FriendSubMessage{
 			FriendMessageID: friendMessage.ID,
@@ -84,4 +95,37 @@ func (bot *Onebot) friendMessage() error {
 		bot.FriendMessage <- struct{}{}
 	}()
 	return nil
+}
+
+func downloadFile(url string) (string, error) {
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return "", err
+	}
+
+	req.Header.Set("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0")
+
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	file, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	md5sum := md5.Sum(file)
+	filename := hex.EncodeToString(md5sum[:])
+	_, err = os.Stat(filename)
+	if !os.IsNotExist(err){
+		return filename, nil
+	}
+	err = os.WriteFile("cache/images/"+filename, file, 0644)
+	if err != nil {
+		return "", err
+	}
+	return filename, nil
 }

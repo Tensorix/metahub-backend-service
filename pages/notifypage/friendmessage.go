@@ -3,6 +3,7 @@ package notifypage
 import (
 	"context"
 	"log"
+	"os"
 	"time"
 
 	auth "github.com/Tensorix/metahub-backend-service/gen/proto/v1/auth"
@@ -49,13 +50,20 @@ func (s *server) FriendMessage(in *auth.CheckRequest, stream grpc.ServerStreamin
 								log.Println(err)
 							}
 							for _, subMsg := range subMessages {
-								t := message.MessageType_MESSAGE_TYPE_IMAGE
-								if subMsg.IsText {
-									t = message.MessageType_MESSAGE_TYPE_TEXT
+								t := message.MessageType_MESSAGE_TYPE_TEXT
+								content := []byte(subMsg.Message)
+								if !subMsg.IsText {
+									t = message.MessageType_MESSAGE_TYPE_IMAGE
+									log.Println("read",subMsg.Message)
+									var err error
+									content,err = os.ReadFile("cache/images/"+subMsg.Message)
+									if err != nil {
+										log.Println(err)
+									}
 								}
 								notifyMessage = append(notifyMessage, &message.Message{
-									Type: t,
-									Text: subMsg.Message,
+									Type:    t,
+									Content: content,
 								})
 							}
 							err := stream.Send(&message.FriendMessageResponse{
@@ -68,7 +76,7 @@ func (s *server) FriendMessage(in *auth.CheckRequest, stream grpc.ServerStreamin
 								ReadMark:    false,
 								Hide:        false,
 								Revoke:      false,
-								Messages:         notifyMessage,
+								Messages:    notifyMessage,
 							})
 							if err != nil {
 								log.Println(err)
