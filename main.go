@@ -11,6 +11,7 @@ import (
 	"github.com/Tensorix/metahub-backend-service/pages/friendpage"
 	"github.com/Tensorix/metahub-backend-service/pages/notifypage"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -56,6 +57,7 @@ func main() {
 	// Create bots
 	registerBot()
 	// Register start
+	reflection.Register(s)
 	authpage.Register(s)
 	notifypage.Register(s)
 	friendpage.Register(s)
