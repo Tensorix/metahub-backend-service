@@ -3,3 +3,4 @@ mbs.sqlite
 tmp
 secret.img
 cache
+.DS_Store
