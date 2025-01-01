@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package proto.v1;
+
+import "proto/v1/accounts/query.proto";
+import "proto/v1/accounts/add.proto";
+import "proto/v1/accounts/remove.proto";
+import "proto/v1/accounts/modify.proto";
+import "proto/v1/auth/check.proto";
+
+service AccountsService {
+  rpc AddAccount(AddAccountRequest) returns (AddAccountResponse) {}
+  rpc RemoveAccount(RemoveAccountRequest) returns (RemoveAccountResponse) {}
+  rpc QueryAccount(QueryAccountRequest) returns (QueryAccountResponse) {}
+  rpc ModifyAccount(ModifyAccountRequest) returns (ModifyAccountResponse) {}
+}

@@ -28,7 +28,7 @@ func (s *server) Heartbeat(in *auth.CheckRequest, stream grpc.ServerStreamingSer
 			if bot.Username != username {
 				continue
 			}
-			
+
 			detail := &notify.Detail{
 				Connected:  bot.Avaliable(),
 				AccountTag: bot.AccountTag,
@@ -40,7 +40,6 @@ func (s *server) Heartbeat(in *auth.CheckRequest, stream grpc.ServerStreamingSer
 			Details:  details,
 			Interval: int32(interval / time.Millisecond),
 		}
-
 		err := stream.Send(&response)
 		if err != nil {
 			return err

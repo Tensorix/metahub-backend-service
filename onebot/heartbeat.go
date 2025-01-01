@@ -13,9 +13,9 @@ type Heartbeat struct {
 	PostType      string   `json:"post_type"`
 }
 
-func (bot *Onebot) heartbeat() error {
+func (bot *Onebot) heartbeat(message []byte) error {
 	var heartBeat Heartbeat
-	err := json.Unmarshal(bot.message, &heartBeat)
+	err := json.Unmarshal(message, &heartBeat)
 	if err != nil {
 		return err
 	}

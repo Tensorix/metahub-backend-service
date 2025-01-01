@@ -8,7 +8,7 @@ import "proto/v1/friend/message.proto";
 message SendRequest {
     CheckRequest token = 1;
     string account_tag = 2;
-    int64 friend_id = 3;
+    int32 friend_id = 3;
     repeated Message messages = 4;
 }
 

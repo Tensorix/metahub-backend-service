@@ -42,7 +42,7 @@ func (bot *Onebot) multiHander() error {
 	for {
 		var data WebsocketData
 		_, message, err := conn.ReadMessage()
-		bot.message = message
+		
 		if err != nil {
 			return err
 		}
@@ -54,20 +54,23 @@ func (bot *Onebot) multiHander() error {
 			switch data.MetaEventType {
 			case "lifecycle":
 				log.Println("exec Lifecycle")
-				err = bot.lifecycle()
+				err = bot.lifecycle(message)
 			case "heartbeat":
 				log.Println("exec Heartbeat")
-				err = bot.heartbeat()
+				err = bot.heartbeat(message)
 			}
 		case "message":
 			switch data.MessageType {
 			case "private":
 				log.Println("exec PrivateMessage")
-				err = bot.friendMessage()
+				err = bot.friendMessage(message)
 			case "group":
 				log.Println("exec GroupMessage")
 			}
+		case "notice":
+			log.Println("received a notice")
 		default:
+            bot.message = message
 			bot.msgSignal <- struct{}{}
 		}
 		if err != nil {

@@ -1,6 +1,7 @@
 package onebot
 
 import (
+	"log"
 	"net/http"
 	"sync"
 
@@ -19,10 +20,9 @@ var (
 )
 
 type Onebot struct {
-	UserID          int64
-	SrvID           uint
-	AccountID       int64
-	UID             int64
+	UserID          int32
+	DockerID        uint
+	AccountID       int32
 	Username        string
 	AccountTag      string
 	IP              string
@@ -52,28 +52,28 @@ type MessageData struct {
 }
 
 type Message struct {
-	Type string `json:"type"`
+	Type string      `json:"type"`
 	Data MessageData `json:"data"`
 }
 
 type ActionParams struct {
-	GroupID     int      `json:"group_id"`
+	GroupID     int       `json:"group_id"`
 	Message     []Message `json:"message"`
-	AutoEscape  bool     `json:"auto_escape"`
-	MessageType string   `json:"message_type"`
-	MessageID   int      `json:"message_id"`
-	ID          string   `json:"id"`
-	UserID      int64    `json:"user_id"`
-	Times       int      `json:"times"`
-	Duration    int      `json:"duration"`
-	Enable      bool     `json:"enable"`
-	Card        string   `json:"card"`
-	GroupName   string   `json:"group_name"`
-	IsDismiss   bool     `json:"is_dismiss"`
-	Flag        string   `json:"flag"`
-	Approve     bool     `json:"approve"`
-	Remark      string   `json:"remark"`
-	Nickname    string   `json:"nickname"`
+	AutoEscape  bool      `json:"auto_escape"`
+	MessageType string    `json:"message_type"`
+	MessageID   int       `json:"message_id"`
+	ID          string    `json:"id"`
+	UID         int64     `json:"user_id"`
+	Times       int       `json:"times"`
+	Duration    int       `json:"duration"`
+	Enable      bool      `json:"enable"`
+	Card        string    `json:"card"`
+	GroupName   string    `json:"group_name"`
+	IsDismiss   bool      `json:"is_dismiss"`
+	Flag        string    `json:"flag"`
+	Approve     bool      `json:"approve"`
+	Remark      string    `json:"remark"`
+	Nickname    string    `json:"nickname"`
 }
 
 type ActionRequest struct {
@@ -81,8 +81,10 @@ type ActionRequest struct {
 	Params ActionParams `json:"params"`
 }
 
-func NewOnebot(username string, accountTag string, ip string, port int) *Onebot {
+func NewOnebot(username string, accountTag string, ip string, port int, userID int32, accountID int32) {
 	bot := Onebot{
+		UserID:        userID,
+		AccountID:     accountID,
 		Username:      username,
 		AccountTag:    accountTag,
 		IP:            ip,
@@ -91,5 +93,7 @@ func NewOnebot(username string, accountTag string, ip string, port int) *Onebot 
 		FriendMessage: make(chan struct{}),
 	}
 	bot.Register()
-	return &bot
+	bot.Run()
+	Bots = append(Bots, &bot)
+	log.Println("New bot:", bot.Username, bot.AccountTag, bot.IP, bot.Port)
 }

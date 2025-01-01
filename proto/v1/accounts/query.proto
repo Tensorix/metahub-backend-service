@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package proto.v1;
+
+import "proto/v1/auth/check.proto";
+
+message AccountData {
+    int32 id = 1;
+    string account_tag = 2;
+    string ip = 3;
+    int32 port = 4;
+}
+
+enum QueryAccountResult {
+    QUERY_ACCOUNT_RESULT_UNSPECIFIED = 0;
+    QUERY_ACCOUNT_RESULT_SUCCESS = 1;
+    QUERY_ACCOUNT_RESULT_FAILED = 2;
+}
+
+message QueryAccountRequest {
+    CheckRequest token = 1;
+}
+
+message QueryAccountResponse {
+    CheckResponse result = 1;
+    QueryAccountResult query_result = 2;
+    repeated AccountData data = 3;
+}

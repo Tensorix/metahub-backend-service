@@ -18,7 +18,7 @@ type MessageResponse struct {
 	Message string `json:"message"`
 }
 
-func (bot *Onebot) SendToFriend(friendID int64, messages []Message) (int64, error) {
+func (bot *Onebot) SendToFriend(friendID int32, messages []Message) (int64, error) {
 	var mr MessageResponse
 	var friend Friend
 	if !bot.Avaliable() {
@@ -34,7 +34,7 @@ func (bot *Onebot) SendToFriend(friendID int64, messages []Message) (int64, erro
 	}
 	DB.First(&friend, "id = ?", friendID)
 	userid := friend.UID
-	action.Params.UserID = userid
+	action.Params.UID = userid
 
 	data, err := json.Marshal(action)
 	if err != nil {

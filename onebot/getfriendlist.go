@@ -19,8 +19,8 @@ type FriendList struct {
 }
 
 type Friend struct {
-	Id        int64
-	AccountID int64
+	Id        int32
+	AccountID int32
 	Nickname  string
 	UID       int64
 	Remark    string

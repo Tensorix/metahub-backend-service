@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package proto.v1;
+
+import "proto/v1/auth/check.proto";
+import "proto/v1/accounts/query.proto";
+
+enum AddAccountResult {
+    ADD_RESULT_UNSPECIFIED = 0;
+    ADD_RESULT_SUCCESS = 1;
+    ADD_RESULT_EXISTS = 2;
+    ADD_RESULT_FAILED = 3;
+}
+
+message AddAccountRequest {
+    CheckRequest token = 1;
+    AccountData data = 2;
+}
+
+message AddAccountResponse {
+    CheckResponse result = 1;
+    AddAccountResult add_result = 2;
+    int32 id = 3;
+}

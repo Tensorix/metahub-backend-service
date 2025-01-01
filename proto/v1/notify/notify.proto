@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package proto.v1;
 
-
 import "proto/v1/notify/heartbeat.proto";
 import "proto/v1/auth/check.proto";
 import "proto/v1/notify/friendmessage.proto";

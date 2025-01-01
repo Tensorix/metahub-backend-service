@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package proto.v1;
+
+import "proto/v1/auth/check.proto";
+
+enum RemoveAccountResult {
+    REMOVE_ACCOUNT_RESULT_UNSPECIFIED = 0;
+    REMOVE_ACCOUNT_RESULT_SUCCESS = 1;
+    REMOVE_ACCOUNT_RESULT_NOT_EXISTS = 2;
+    REMOVE_ACCOUNT_RESULT_FAILED = 3;
+}
+
+message RemoveAccountRequest {
+    CheckRequest token = 1;
+    int32 id = 2;
+}
+
+message RemoveAccountResponse {
+    CheckResponse result = 1;
+    RemoveAccountResult remove_result = 2;
+}

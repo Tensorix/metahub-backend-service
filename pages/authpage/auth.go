@@ -14,7 +14,7 @@ var (
 )
 
 type User struct {
-	Id       int64
+	Id       int32
 	Username string
 	Pwd      string
 }

@@ -5,9 +5,10 @@ package proto.v1;
 import "proto/v1/auth/check.proto";
 
 message Friend {
-    int64 user_id = 1;
-    string nickname = 2;
-    string remark = 3;
+    int32 user_id = 1;
+    int64 uid = 2;
+    string nickname = 3;
+    string remark = 4;
 }
 
 message FriendList {

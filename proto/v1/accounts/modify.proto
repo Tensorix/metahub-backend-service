@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package proto.v1;
+
+import "proto/v1/auth/check.proto";
+import "proto/v1/accounts/query.proto";
+
+message ModifyAccountRequest {
+    CheckRequest token = 1;
+    AccountData data = 2;
+}
+
+enum ModifyAccountResult {
+    MODIFY_ACCOUNT_RESULT_UNSPECIFIED = 0;
+    MODIFY_ACCOUNT_RESULT_SUCCESS = 1;
+    MODIFY_ACCOUNT_RESULT_NOT_EXISTS = 2;
+    MODIFY_ACCOUNT_RESULT_FAILED = 3;
+}
+
+message ModifyAccountResponse {
+    CheckResponse result = 1;
+    ModifyAccountResult modify_result = 2;
+}

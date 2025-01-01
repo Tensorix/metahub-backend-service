@@ -7,7 +7,7 @@ import "proto/v1/friend/message.proto";
 
 message FriendMessageResponse {
     CheckResult result = 1;
-    int64 friend_id = 2;
+    int32 friend_id = 2;
     bool self_message = 3;
     int64 message_id = 4;
     int64 timestamp = 5;

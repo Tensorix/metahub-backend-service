@@ -20,7 +20,7 @@ type BotFriendMessage struct {
 type FriendMessage struct {
 	ID          uint
 	MessageID   int64
-	FriendID    int64
+	FriendID    int32
 	MessageTS   int64
 	SelfMessage bool
 	ReadMark    bool
@@ -35,9 +35,9 @@ type FriendSubMessage struct {
 	Message         string
 }
 
-func (bot *Onebot) friendMessage() error {
+func (bot *Onebot) friendMessage(message []byte) error {
 	var botmsg BotFriendMessage
-	err := json.Unmarshal(bot.message, &botmsg)
+	err := json.Unmarshal(message, &botmsg)
 	if err != nil {
 		log.Println(err)
 		return nil
